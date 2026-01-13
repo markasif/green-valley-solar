@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        heading: ["Poppins", "system-ui", "sans-serif"],
+        sans: ["Montserrat", "Inter", "system-ui", "sans-serif"],
+        heading: ["Montserrat", "Poppins", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -58,13 +58,18 @@ export default {
           "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
           accent: "hsl(var(--sidebar-accent))",
           "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
+        },
+        amber: {
+          DEFAULT: "#FFB800",
+          foreground: "#1A1A1A",
         },
       },
       backgroundImage: {
         'gradient-hero': 'var(--gradient-hero)',
         'gradient-cta': 'var(--gradient-cta)',
+        'gradient-cta-strong': 'var(--gradient-cta-strong)',
+        'gradient-cta-subtle': 'var(--gradient-cta-subtle)'
       },
       boxShadow: {
         'card': 'var(--shadow-card)',

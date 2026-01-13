@@ -7,13 +7,27 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { name: "Home", path: "/" },
   { name: "About Us", path: "/about" },
-  { name: "Services", path: "/services" },
-  { name: "Contact Us", path: "/contact" },
+  { name: "Services", path: "/#services" },
+  { name: "Contact Us", path: "/#contact" },
 ];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+
+  const isLinkActive = (linkPath: string) => {
+    const currentPath = location.pathname + location.hash;
+
+    // For Home links ("/" or ""), strictly match root with no hash
+    if (linkPath === "/" || linkPath === "") {
+      return location.pathname === "/" && location.hash === "";
+    }
+
+    // For other links, check if the current path starts with or equals the link path
+    // This handles "/about" matching "/about"
+    // And "/#services" matching "/#services"
+    return currentPath === linkPath;
+  };
 
   const handleQuoteClick = () => {
     const message = encodeURIComponent("Hello Green Valley Enterprises, I would like to get a free solar quote. Please contact me.");
@@ -23,9 +37,9 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center h-16 md:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 mr-12 shrink-0">
             <div className="w-10 h-10 rounded-full bg-gradient-hero flex items-center justify-center">
               <Sun className="w-6 h-6 text-primary-foreground" />
             </div>
@@ -35,16 +49,13 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8 mr-auto">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-medium transition-colors hover:text-secondary ${
-                  location.pathname === link.path
-                    ? "text-secondary"
-                    : "text-foreground"
-                }`}
+                className={`font-medium transition-colors hover:text-amber ${isLinkActive(link.path) ? "text-amber" : "text-foreground"
+                  }`}
               >
                 {link.name}
               </Link>
@@ -53,14 +64,14 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button variant="hero" size="lg" onClick={handleQuoteClick}>
+            <Button variant="amber" size="lg" onClick={handleQuoteClick} className="font-bold text-base">
               Get Free Solar Quote
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden ml-auto p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -88,11 +99,8 @@ const Header = () => {
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`font-medium py-2 transition-colors ${
-                    location.pathname === link.path
-                      ? "text-secondary"
-                      : "text-foreground"
-                  }`}
+                  className={`font-medium py-2 transition-colors ${isLinkActive(link.path) ? "text-secondary" : "text-foreground"
+                    }`}
                 >
                   {link.name}
                 </Link>
